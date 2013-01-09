@@ -3,48 +3,29 @@
 001     _RETURN_
 002     @SCRATCH
 003     @SCRATCH
-004     @INTERRUPT_AREA
-005     @INTERRUPT_AREA
-006     @INTERRUPT_AREA
-007     @INTERRUPT_AREA
-008     @INTERRUPT_AREA
-009     @INTERRUPT_AREA
-00A     @INTERRUPT_AREA
-00B     @INTERRUPT_AREA
-00C     @INTERRUPT_AREA
-00D     @INTERRUPT_AREA
-00E     @INTERRUPT_AREA
-00F     @INTERRUPT_AREA
-010     @INTERRUPT_AREA
-011     @INTERRUPT_AREA
-012     @INTERRUPT_AREA
-013     @INTERRUPT_AREA
-014     @INTERRUPT_AREA
-015     @INTERRUPT_AREA
-016     @INTERRUPT_AREA
-017     @INTERRUPT_AREA
-018     @INTERRUPT_AREA
-019     cont
+005     @PSTRINGC_9600_31766_31767.@SCRATCH1
+006     @PSTRINGC_9600_31766_31767.@SCRATCH2
 F83     PSP_DATA
-FBB     CCP_2_LOW
 FBB     CCP_2
+FBB     CCP_2_LOW
 FBC     CCP_2_HIGH
 FBE     CCP_1
 FBE     CCP_1_LOW
 FBF     CCP_1_HIGH
 FE1-FE2 @WRITE_PACKED_MEMORY.P1
 FE1-FE2 @READ_PACKED_MEMORY.P2
-FE9-FEA @READ_PROGRAM_MEMORY.P1
+FE9-FEA @READ_PACKED_MEMORY.P1
 FE9-FEA @WRITE_PROGRAM_MEMORY.P2
 FE9-FEA @WRITE_PACKED_MEMORY.P3
-FE9-FEA @READ_PACKED_MEMORY.P4
-FF6-FF8 @WRITE_PROGRAM_MEMORY.P1
-FF6-FF8 @READ_PROGRAM_MEMORY.P2
+FE9-FEA @READ_PROGRAM_MEMORY.P4
+FF6-FF8 @READ_PROGRAM_MEMORY.P1
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P2
 
 ROM Allocation:
-00AE  timer0_isr
-00BA  MAIN
-00BA  @cinit
+0030  main
+0004  @const70
+000C  @PSTRINGC_9600_31766_31767
+0030  @cinit
 
 
 User Memory space: 
@@ -52,16 +33,16 @@ User Memory space:
 User Memory space: 
 
 Project Directory:
-    D:\Projetos\Timer\
+    C:\Users\cuki\Eletronica\Projetos\Timer\
 
 Project Files:
-    timer.c                                                 [22-mar-12 07:45  CRC=4CDF16CB]
-    C:\PICC\Devices\18F452.h                                [27-jul-11 17:03  CRC=E6127A61]
+    timer.c                                                 [09-jan-13 13:59  CRC=0886E292]
+    ..\..\..\..\..\PICC\Devices\18F452.h                    [09-jan-13 13:23  CRC=E6127A61]
 
-Source signature=19040B8D
+Source signature=D4ABD754
 
 Units:
-    D:\Projetos\Timer\timer (main)
+    C:\Users\cuki\Eletronica\Projetos\Timer\timer (main)
 
 Compiler Settings:
     Processor:      PIC18F452

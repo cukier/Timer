@@ -1,5 +1,5 @@
 [Directories]
-Include=C:\PICC\Devices;C:\PICC\Drivers;D:\Projetos\Giroscopio\;
+Include=C:\PICC\Devices;C:\PICC\Drivers;
 Library=
 LinkerScript=
 [defines]
@@ -38,7 +38,7 @@ BuildTool=
 OptionString=
 AdditionalOptionString=
 [mru-list]
-1=D:\Projetos\Timer\timer.c
+1=timer.c
 [Windows]
 0=0000 %S 0 0 796 451 3 0
 [Units]
