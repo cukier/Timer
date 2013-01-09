@@ -1,0 +1,45 @@
+
+ROM used: 216 (1%)
+          216 (1%) including unused fragments
+
+          0 Average locations per line
+          31 Average locations per statement
+
+RAM used: 26 (2%) at main() level
+          26 (2%) worst case
+
+Stack used: 1 worst case (out of 31 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  105     7 100  timer.c
+  359     0   0  C:\PICC\Devices\18F452.h
+----- -----
+  464     7 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     12   3   0    32  1.0  timer0_isr
+0     34   8   0    72  1.6  MAIN
+
+Program metrics:
+    Functions               2
+    Statements              7
+    Comments                172
+    Volume (V)              131
+    Difficilty (D)          2.6
+    Effort to implement (E) 344
+    Time to implement (T)   0 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   1
+    Maintainability (MI)    178
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00002     4  0  
+00004-00006     0  4  
+00008-000AC   166  0  
+000AE-07FFE    46  32548  
+
+
+
