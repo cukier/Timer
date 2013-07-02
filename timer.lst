@@ -1,15 +1,15 @@
-CCS PCH C Compiler, Version 4.124, 5967               19-abr-13 15:11
+CCS PCH C Compiler, Version 4.140, 21898               02-jul-13 10:53
 
-               Filename: E:\Eletronica\Projetos\Timer\timer.lst
+               Filename:   E:\Eletronica\Projetos\Timer\timer.lst
 
-               ROM used: 358 bytes (1%)
-                         Largest free fragment is 32406
-               RAM used: 25 (2%) at main() level
-                         28 (2%) worst case
-               Stack:    3 worst case (2 in main + 1 for interrupts)
+               ROM used:   226 bytes (1%)
+                           Largest free fragment is 32538
+               RAM used:   25 (2%) at main() level
+                           25 (2%) worst case
+               Stack:     1 worst case (0 in main + 1 for interrupts)
 
 *
-0000:  GOTO   012C
+0000:  GOTO   00BA
 *
 0008:  MOVWF  04
 000A:  MOVFF  FD8,05
@@ -31,9 +31,9 @@ CCS PCH C Compiler, Version 4.124, 5967               19-abr-13 15:11
 0048:  MOVFF  01,0F
 004C:  MOVFF  02,10
 0050:  MOVFF  03,11
-0054:  BTFSS  FF2.5
+0054:  BTFSS  F9D.1
 0056:  GOTO   0060
-005A:  BTFSC  FF2.2
+005A:  BTFSC  F9E.1
 005C:  GOTO   00AE
 0060:  MOVFF  0E,00
 0064:  MOVFF  0F,01
@@ -62,103 +62,56 @@ CCS PCH C Compiler, Version 4.124, 5967               19-abr-13 15:11
 .................... #list 
 ....................  
 ....................  
-.................... #fuses HS,NOWDT,NOLVP,BROWNOUT,PUT 
+.................... #fuses H4 
 ....................  
-.................... #use delay(clock=25MHz) 
-.................... #use rs232(baud=9600, xmit=PIN_C6) 
-*
-00C8:  BCF    F94.6
-00CA:  BCF    F8B.6
-00CC:  MOVLW  08
-00CE:  MOVWF  01
-00D0:  BRA    00D2
-00D2:  NOP   
-00D4:  BSF    01.7
-00D6:  BRA    00F4
-00D8:  BCF    01.7
-00DA:  RRCF   1B,F
-00DC:  BTFSC  FD8.0
-00DE:  BSF    F8B.6
-00E0:  BTFSS  FD8.0
-00E2:  BCF    F8B.6
-00E4:  BSF    01.6
-00E6:  BRA    00F4
-00E8:  BCF    01.6
-00EA:  DECFSZ 01,F
-00EC:  BRA    00DA
-00EE:  BRA    00F0
-00F0:  NOP   
-00F2:  BSF    F8B.6
-00F4:  MOVLW  D2
-00F6:  MOVWF  FE9
-00F8:  DECFSZ FE9,F
-00FA:  BRA    00F8
-00FC:  BRA    00FE
-00FE:  NOP   
-0100:  BTFSC  01.7
-0102:  BRA    00D8
-0104:  BTFSC  01.6
-0106:  BRA    00E8
-0108:  GOTO   0120 (RETURN)
+.................... #use delay(clock=32MHz, crystal=8MHz) 
+.................... //#use rs232(baud=9600, xmit=PIN_C6) 
 ....................  
-.................... #INT_TIMER0 
+.................... #INT_TIMER2 
 .................... void isr_timer0() { 
-.................... 	clear_interrupt(INT_TIMER0); 
-*
-00AE:  BCF    FF2.2
+.................... 	clear_interrupt(INT_TIMER2); 
+00AE:  BCF    F9E.1
 .................... 	output_toggle(PIN_C3); 
 00B0:  BCF    F94.3
 00B2:  BTG    F8B.3
 .................... } 
 ....................  
-00B4:  BCF    FF2.2
+00B4:  BCF    F9E.1
 00B6:  GOTO   0060
 .................... int main(void) { 
-*
-012C:  CLRF   FF8
-012E:  BCF    FD0.7
-0130:  BSF    07.7
-0132:  CLRF   FEA
-0134:  CLRF   FE9
-0136:  BCF    F94.6
-0138:  BSF    F8B.6
-013A:  BSF    FC1.0
-013C:  BSF    FC1.1
-013E:  BSF    FC1.2
-0140:  BCF    FC1.3
-.................... 	clear_interrupt(INT_TIMER0); 
-0142:  BCF    FF2.2
-.................... 	setup_timer_0(T0_DIV_1); 
-0144:  MOVLW  88
-0146:  MOVWF  FD5
-.................... 	enable_interrupts(INT_TIMER0); 
-0148:  BSF    FF2.5
+00BA:  CLRF   FF8
+00BC:  BCF    FD0.7
+00BE:  BSF    07.7
+00C0:  CLRF   FEA
+00C2:  CLRF   FE9
+00C4:  BSF    FC1.0
+00C6:  BSF    FC1.1
+00C8:  BSF    FC1.2
+00CA:  BCF    FC1.3
+.................... 	clear_interrupt(INT_TIMER2); 
+00CC:  BCF    F9E.1
+.................... 	setup_timer_2(T2_DIV_BY_16, 0xFA, 2); 
+00CE:  MOVLW  08
+00D0:  IORLW  06
+00D2:  MOVWF  FCA
+00D4:  MOVLW  FA
+00D6:  MOVWF  FCB
+.................... 	enable_interrupts(INT_TIMER2); 
+00D8:  BSF    F9D.1
 .................... 	enable_interrupts(GLOBAL); 
-014A:  MOVLW  C0
-014C:  IORWF  FF2,F
-.................... 	printf("Hello"); 
-014E:  MOVLW  BA
-0150:  MOVWF  FF6
-0152:  MOVLW  00
-0154:  MOVWF  FF7
-0156:  RCALL  010C
-.................... 	printf("\nWorld"); 
-0158:  MOVLW  C0
-015A:  MOVWF  FF6
-015C:  MOVLW  00
-015E:  MOVWF  FF7
-0160:  RCALL  010C
+00DA:  MOVLW  C0
+00DC:  IORWF  FF2,F
 .................... 	while (TRUE) 
 .................... 		; 
-0162:  BRA    0162
+00DE:  BRA    00DE
 .................... 	return 0; 
-0164:  MOVLW  00
-0166:  MOVWF  01
+00E0:  MOVLW  00
+00E2:  MOVWF  01
 .................... } 
-0168:  SLEEP 
+00E4:  SLEEP 
 
 Configuration Fuses:
-   Word  1: 2200   HS NOOSCSEN
+   Word  1: 2600   H4 NOOSCSEN
    Word  2: 0E0E   PUT BROWNOUT BORV20 NOWDT WDT128
    Word  3: 0100   CCP2C1
    Word  4: 0081   STVREN NOLVP NODEBUG
