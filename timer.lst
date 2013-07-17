@@ -1,15 +1,15 @@
-CCS PCH C Compiler, Version 4.140, 21898               16-jul-13 10:51
+CCS PCH C Compiler, Version 4.140, 21898               17-jul-13 09:19
 
                Filename:   E:\Eletronica\Projetos\Timer\timer.lst
 
-               ROM used:   264 bytes (1%)
-                           Largest free fragment is 32500
-               RAM used:   27 (2%) at main() level
-                           27 (2%) worst case
+               ROM used:   226 bytes (1%)
+                           Largest free fragment is 32538
+               RAM used:   25 (2%) at main() level
+                           25 (2%) worst case
                Stack:     1 worst case (0 in main + 1 for interrupts)
 
 *
-0000:  GOTO   00C2
+0000:  GOTO   00BA
 *
 0008:  MOVWF  04
 000A:  MOVFF  FD8,05
@@ -31,9 +31,9 @@ CCS PCH C Compiler, Version 4.140, 21898               16-jul-13 10:51
 0048:  MOVFF  01,0F
 004C:  MOVFF  02,10
 0050:  MOVFF  03,11
-0054:  BTFSS  FF2.5
+0054:  BTFSS  F9D.1
 0056:  GOTO   0060
-005A:  BTFSC  FF2.2
+005A:  BTFSC  F9E.1
 005C:  GOTO   00AE
 0060:  MOVFF  0E,00
 0064:  MOVFF  0F,01
@@ -67,73 +67,48 @@ CCS PCH C Compiler, Version 4.140, 21898               16-jul-13 10:51
 .................... #use delay(clock=8MHz) 
 .................... //#use rs232(baud=9600, xmit=PIN_C6) 
 ....................  
-.................... #define tempo 14465 
-....................  
-.................... static long registrador; 
-....................  
-.................... #INT_TIMER0 
-.................... void isr_timer0() { 
-.................... 	clear_interrupt(INT_TIMER0); 
-00AE:  BCF    FF2.2
-.................... 	set_timer0(tempo); 
-00B0:  MOVLW  38
-00B2:  MOVWF  FD7
-00B4:  MOVLW  81
-00B6:  MOVWF  FD6
+.................... #INT_TIMER2 
+.................... void isr_timer2() { 
+.................... 	clear_interrupt(INT_TIMER2); 
+00AE:  BCF    F9E.1
 .................... 	output_toggle(PIN_C3); 
-00B8:  BCF    F94.3
-00BA:  BTG    F8B.3
+00B0:  BCF    F94.3
+00B2:  BTG    F8B.3
 .................... } 
 ....................  
-00BC:  BCF    FF2.2
-00BE:  GOTO   0060
+00B4:  BCF    F9E.1
+00B6:  GOTO   0060
 .................... int main(void) { 
-00C2:  CLRF   FF8
-00C4:  BCF    FD0.7
-00C6:  BSF    07.7
-00C8:  CLRF   FEA
-00CA:  CLRF   FE9
-00CC:  BSF    FC1.0
-00CE:  BSF    FC1.1
-00D0:  BSF    FC1.2
-00D2:  BCF    FC1.3
-00D4:  CLRF   19
-00D6:  CLRF   1A
-.................... 	clear_interrupt(INT_TIMER0); 
-00D8:  BCF    FF2.2
-.................... 	setup_timer_0(T0_DIV_256); 
-00DA:  MOVLW  87
-00DC:  MOVWF  FD5
-.................... 	set_timer0(tempo); 
-00DE:  MOVLW  38
-00E0:  MOVWF  FD7
-00E2:  MOVLW  81
-00E4:  MOVWF  FD6
-.................... 	enable_interrupts(INT_TIMER0); 
-00E6:  BSF    FF2.5
+00BA:  CLRF   FF8
+00BC:  BCF    FD0.7
+00BE:  BSF    07.7
+00C0:  CLRF   FEA
+00C2:  CLRF   FE9
+00C4:  BSF    FC1.0
+00C6:  BSF    FC1.1
+00C8:  BSF    FC1.2
+00CA:  BCF    FC1.3
+.................... 	clear_interrupt(INT_TIMER2); 
+00CC:  BCF    F9E.1
+.................... 	setup_timer_2(T2_DIV_BY_16, 77, 16); 
+00CE:  MOVLW  78
+00D0:  IORLW  06
+00D2:  MOVWF  FCA
+00D4:  MOVLW  4D
+00D6:  MOVWF  FCB
+.................... 	enable_interrupts(INT_TIMER2); 
+00D8:  BSF    F9D.1
 .................... 	enable_interrupts(GLOBAL); 
-00E8:  MOVLW  C0
-00EA:  IORWF  FF2,F
-.................... 	while (TRUE){ 
-.................... 		if (registrador != get_timer0()) 
-00EC:  MOVF   FD6,W
-00EE:  MOVFF  FD7,03
-00F2:  SUBWF  19,W
-00F4:  BNZ   00FC
-00F6:  MOVF   03,W
-00F8:  SUBWF  1A,W
-00FA:  BZ    0104
-.................... 			registrador = get_timer0(); 
-00FC:  MOVF   FD6,W
-00FE:  MOVWF  19
-0100:  MOVFF  FD7,1A
-.................... 	} 
-0104:  BRA    00EC
+00DA:  MOVLW  C0
+00DC:  IORWF  FF2,F
+.................... 	while (TRUE) 
+.................... 		; 
+00DE:  BRA    00DE
 .................... 	return 0; 
-0106:  MOVLW  00
-0108:  MOVWF  01
+00E0:  MOVLW  00
+00E2:  MOVWF  01
 .................... } 
-010A:  SLEEP 
+00E4:  SLEEP 
 
 Configuration Fuses:
    Word  1: 2200   HS NOOSCSEN
