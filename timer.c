@@ -1,28 +1,24 @@
-/*Uso do timer 0 com fonte externa no 18F542 (pin_a4)*/
+/*Uso do timer 1 com fonte externa no 18F45k20 (pin_c0)*/
 
-#include<18F452.h>
+#include<18F45k20.h>
 
-#FUSES HS
+#fuses H4
 
-#use delay(clock=8MHz)
+#use delay(crystal=16MHz, clock=64MHz)
 #use rs232(xmit=PIN_C6, baud=9600)
-
-#INT_TIMER0
-void isr_timer0() {
-	clear_interrupt(INT_TIMER0);
-	set_timer0(252);
-	output_toggle(PIN_C3);
-}
 
 int main(void) {
 
-	setup_timer_0(T0_DIV_1 | T0_EXT_L_TO_H | T0_8_BIT);
-	set_timer0(252);
-	clear_interrupt(INT_TIMER0);
-	enable_interrupts(INT_TIMER0 | GLOBAL);
+	long aux, aux2;
+
+	setup_timer_1(T1_EXTERNAL | T1_DIV_BY_1);
 
 	while (TRUE) {
-		;
+		aux = get_timer1();
+		if (aux != aux2) {
+			aux2 = aux;
+			printf("\f%lu", aux);
+		}
 	}
 
 	return 0;
