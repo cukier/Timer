@@ -1,15 +1,15 @@
-CCS PCH C Compiler, Version 4.140, 22098               18-set-14 16:55
+CCS PCH C Compiler, Version 4.140, 22098               18-set-14 16:58
 
                Filename:   D:\Projetos\Timer\timer.lst
 
-               ROM used:   408 bytes (1%)
-                           Largest free fragment is 32360
+               ROM used:   394 bytes (1%)
+                           Largest free fragment is 32374
                RAM used:   8 (1%) at main() level
                            18 (1%) worst case
                Stack:     2 locations
 
 *
-0000:  GOTO   013E
+0000:  GOTO   0130
 .................... /*Uso do timer 1 com fonte externa no 18F542 (pin_c0)*/ 
 ....................  
 .................... #include<18F252.h> 
@@ -18,10 +18,10 @@ CCS PCH C Compiler, Version 4.140, 22098               18-set-14 16:55
 .................... #list 
 ....................  
 ....................  
-.................... #fuses H4 
+.................... #fuses HS 
 ....................  
-.................... #use delay(crystal=16MHz, clock=64MHz) 
-.................... #use rs232(xmit=PIN_C6, baud=9600) 
+.................... #use delay(clock=16MHz) 
+.................... #use rs232(xmit=PIN_C6, baud=19200) 
 *
 0004:  BCF    F94.6
 0006:  BCF    F8B.6
@@ -45,84 +45,77 @@ CCS PCH C Compiler, Version 4.140, 22098               18-set-14 16:55
 002A:  BRA    002C
 002C:  NOP   
 002E:  BSF    F8B.6
-0030:  MOVLW  02
-0032:  MOVWF  00
-0034:  CLRF   FE9
-0036:  DECFSZ FE9,F
-0038:  BRA    0036
-003A:  DECFSZ 00,F
-003C:  BRA    0034
-003E:  MOVLW  23
-0040:  MOVWF  FE9
-0042:  DECFSZ FE9,F
-0044:  BRA    0042
-0046:  NOP   
-0048:  BTFSC  01.7
-004A:  BRA    0014
-004C:  BTFSC  01.6
-004E:  BRA    0024
-0050:  RETURN 0
+0030:  MOVLW  3F
+0032:  MOVWF  FE9
+0034:  DECFSZ FE9,F
+0036:  BRA    0034
+0038:  NOP   
+003A:  BTFSC  01.7
+003C:  BRA    0014
+003E:  BTFSC  01.6
+0040:  BRA    0024
+0042:  RETURN 0
 ....................  
 .................... long t0, t0aux; 
 ....................  
 .................... int main(void) { 
 *
-013E:  CLRF   FF8
-0140:  BCF    FD0.7
-0142:  CLRF   FEA
-0144:  CLRF   FE9
-0146:  BCF    F94.6
-0148:  BSF    F8B.6
-014A:  BSF    FC1.0
-014C:  BSF    FC1.1
-014E:  BSF    FC1.2
-0150:  BCF    FC1.3
+0130:  CLRF   FF8
+0132:  BCF    FD0.7
+0134:  CLRF   FEA
+0136:  CLRF   FE9
+0138:  BCF    F94.6
+013A:  BSF    F8B.6
+013C:  BSF    FC1.0
+013E:  BSF    FC1.1
+0140:  BSF    FC1.2
+0142:  BCF    FC1.3
 ....................  
 ....................    setup_timer_1(T1_EXTERNAL | T1_DIV_BY_1); 
-0152:  MOVLW  87
-0154:  MOVWF  FCD
+0144:  MOVLW  87
+0146:  MOVWF  FCD
 ....................    set_timer1(0); 
-0156:  CLRF   FCF
-0158:  CLRF   FCE
+0148:  CLRF   FCF
+014A:  CLRF   FCE
 ....................  
 ....................    while (TRUE) { 
 ....................       t0 = get_timer1(); 
-015A:  MOVF   FCE,W
-015C:  MOVWF  04
-015E:  MOVFF  FCF,05
+014C:  MOVF   FCE,W
+014E:  MOVWF  04
+0150:  MOVFF  FCF,05
 ....................       if (t0 != t0aux) { 
-0162:  MOVF   06,W
-0164:  SUBWF  04,W
-0166:  BNZ   016E
-0168:  MOVF   07,W
-016A:  SUBWF  05,W
-016C:  BZ    0190
+0154:  MOVF   06,W
+0156:  SUBWF  04,W
+0158:  BNZ   0160
+015A:  MOVF   07,W
+015C:  SUBWF  05,W
+015E:  BZ    0182
 ....................          t0aux = t0; 
-016E:  MOVFF  05,07
-0172:  MOVFF  04,06
+0160:  MOVFF  05,07
+0164:  MOVFF  04,06
 ....................          printf("%ld\n\r", t0); 
-0176:  MOVLW  10
-0178:  MOVWF  FE9
-017A:  MOVFF  05,09
-017E:  MOVFF  04,08
-0182:  BRA    0052
-0184:  MOVLW  0A
-0186:  MOVWF  11
-0188:  RCALL  0004
-018A:  MOVLW  0D
-018C:  MOVWF  11
-018E:  RCALL  0004
+0168:  MOVLW  10
+016A:  MOVWF  FE9
+016C:  MOVFF  05,09
+0170:  MOVFF  04,08
+0174:  BRA    0044
+0176:  MOVLW  0A
+0178:  MOVWF  11
+017A:  RCALL  0004
+017C:  MOVLW  0D
+017E:  MOVWF  11
+0180:  RCALL  0004
 ....................       } 
 ....................    } 
-0190:  BRA    015A
+0182:  BRA    014C
 ....................    return 0; 
-0192:  MOVLW  00
-0194:  MOVWF  01
+0184:  MOVLW  00
+0186:  MOVWF  01
 .................... } 
-0196:  SLEEP 
+0188:  SLEEP 
 
 Configuration Fuses:
-   Word  1: 2600   H4 NOOSCSEN
+   Word  1: 2200   HS NOOSCSEN
    Word  2: 0E0E   PUT BROWNOUT BORV20 NOWDT WDT128
    Word  3: 0100   CCP2C1
    Word  4: 0081   STVREN NOLVP NODEBUG

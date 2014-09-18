@@ -2,10 +2,10 @@
 
 #include<18F252.h>
 
-#fuses H4
+#fuses HS
 
-#use delay(crystal=16MHz, clock=64MHz)
-#use rs232(xmit=PIN_C6, baud=9600)
+#use delay(clock=16MHz)
+#use rs232(xmit=PIN_C6, baud=19200)
 
 long t0, t0aux;
 
