@@ -1,4 +1,4 @@
-/*Uso do timer 0 com fonte externa no 18F542 (pin_a4)*/
+/*Uso do timer 1 com fonte externa no 18F542 (pin_c0)*/
 
 #include<18F252.h>
 
