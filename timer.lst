@@ -1,20 +1,20 @@
-CCS PCH C Compiler, Version 4.140, 31805               05-mar-14 15:34
+CCS PCH C Compiler, Version 4.140, 22098               18-set-14 16:55
 
-               Filename:   D:\Eletronica\Projetos\Timer\timer.lst
+               Filename:   D:\Projetos\Timer\timer.lst
 
-               ROM used:   356 bytes (1%)
-                           Largest free fragment is 32412
+               ROM used:   408 bytes (1%)
+                           Largest free fragment is 32360
                RAM used:   8 (1%) at main() level
                            18 (1%) worst case
                Stack:     2 locations
 
 *
-0000:  GOTO   0106
-.................... /*Uso do timer 1 com fonte externa no 18F45k20 (pin_c0)*/ 
+0000:  GOTO   013E
+.................... /*Uso do timer 1 com fonte externa no 18F542 (pin_c0)*/ 
 ....................  
-.................... #include<18F45k20.h> 
-.................... //////// Standard Header file for the PIC18F45K20 device //////////////// 
-.................... #device PIC18F45K20 
+.................... #include<18F252.h> 
+.................... //////// Standard Header file for the PIC18F252 device //////////////// 
+.................... #device PIC18F252 
 .................... #list 
 ....................  
 ....................  
@@ -32,7 +32,7 @@ CCS PCH C Compiler, Version 4.140, 31805               05-mar-14 15:34
 0010:  BSF    01.7
 0012:  BRA    0030
 0014:  BCF    01.7
-0016:  RRCF   12,F
+0016:  RRCF   11,F
 0018:  BTFSC  FD8.0
 001A:  BSF    F8B.6
 001C:  BTFSS  FD8.0
@@ -63,71 +63,69 @@ CCS PCH C Compiler, Version 4.140, 31805               05-mar-14 15:34
 004E:  BRA    0024
 0050:  RETURN 0
 ....................  
+.................... long t0, t0aux; 
+....................  
 .................... int main(void) { 
 *
-0106:  CLRF   FF8
-0108:  BCF    FD0.7
-010A:  CLRF   FEA
-010C:  CLRF   FE9
-010E:  BCF    F94.6
-0110:  BSF    F8B.6
-0112:  MOVLW  00
-0114:  MOVWF  F7E
-0116:  BCF    FC1.4
-0118:  BCF    FC1.5
-011A:  MOVF   F7F,W
-011C:  ANDLW  E0
-011E:  MOVWF  F7F
-0120:  BCF    F79.5
-0122:  BCF    F79.4
-0124:  CLRF   F7A
-0126:  CLRF   F7B
+013E:  CLRF   FF8
+0140:  BCF    FD0.7
+0142:  CLRF   FEA
+0144:  CLRF   FE9
+0146:  BCF    F94.6
+0148:  BSF    F8B.6
+014A:  BSF    FC1.0
+014C:  BSF    FC1.1
+014E:  BSF    FC1.2
+0150:  BCF    FC1.3
 ....................  
-.................... 	long aux, aux2; 
+....................    setup_timer_1(T1_EXTERNAL | T1_DIV_BY_1); 
+0152:  MOVLW  87
+0154:  MOVWF  FCD
+....................    set_timer1(0); 
+0156:  CLRF   FCF
+0158:  CLRF   FCE
 ....................  
-.................... 	setup_timer_1(T1_EXTERNAL | T1_DIV_BY_1); 
-0128:  MOVLW  87
-012A:  MOVWF  FCD
-....................  
-.................... 	while (TRUE) { 
-.................... 		aux = get_timer1(); 
-012C:  MOVF   FCE,W
-012E:  MOVWF  05
-0130:  MOVFF  FCF,06
-.................... 		if (aux != aux2) { 
-0134:  MOVF   07,W
-0136:  SUBWF  05,W
-0138:  BNZ   0140
-013A:  MOVF   08,W
-013C:  SUBWF  06,W
-013E:  BZ    015C
-.................... 			aux2 = aux; 
-0140:  MOVFF  06,08
-0144:  MOVFF  05,07
-.................... 			printf("\f%lu", aux); 
-0148:  MOVLW  0C
-014A:  MOVWF  12
-014C:  RCALL  0004
-014E:  MOVLW  10
-0150:  MOVWF  FE9
-0152:  MOVFF  06,0A
-0156:  MOVFF  05,09
-015A:  BRA    0052
-.................... 		} 
-.................... 	} 
-015C:  BRA    012C
-....................  
-.................... 	return 0; 
-015E:  MOVLW  00
-0160:  MOVWF  01
+....................    while (TRUE) { 
+....................       t0 = get_timer1(); 
+015A:  MOVF   FCE,W
+015C:  MOVWF  04
+015E:  MOVFF  FCF,05
+....................       if (t0 != t0aux) { 
+0162:  MOVF   06,W
+0164:  SUBWF  04,W
+0166:  BNZ   016E
+0168:  MOVF   07,W
+016A:  SUBWF  05,W
+016C:  BZ    0190
+....................          t0aux = t0; 
+016E:  MOVFF  05,07
+0172:  MOVFF  04,06
+....................          printf("%ld\n\r", t0); 
+0176:  MOVLW  10
+0178:  MOVWF  FE9
+017A:  MOVFF  05,09
+017E:  MOVFF  04,08
+0182:  BRA    0052
+0184:  MOVLW  0A
+0186:  MOVWF  11
+0188:  RCALL  0004
+018A:  MOVLW  0D
+018C:  MOVWF  11
+018E:  RCALL  0004
+....................       } 
+....................    } 
+0190:  BRA    015A
+....................    return 0; 
+0192:  MOVLW  00
+0194:  MOVWF  01
 .................... } 
-0162:  SLEEP 
+0196:  SLEEP 
 
 Configuration Fuses:
-   Word  1: C600   H4 FCMEN IESO
-   Word  2: 1E1E   PUT BROWNOUT BORV18 NOWDT WDT32768
-   Word  3: 8F00   CCP2C1 PBADEN LPT1OSC HFOFST MCLR
-   Word  4: 0081   STVREN NOLVP NOXINST NODEBUG
+   Word  1: 2600   H4 NOOSCSEN
+   Word  2: 0E0E   PUT BROWNOUT BORV20 NOWDT WDT128
+   Word  3: 0100   CCP2C1
+   Word  4: 0081   STVREN NOLVP NODEBUG
    Word  5: C00F   NOPROTECT NOCPB NOCPD
    Word  6: E00F   NOWRT NOWRTC NOWRTB NOWRTD
    Word  7: 400F   NOEBTR NOEBTRB
