@@ -1,5 +1,5 @@
 CC=ccsc
-CFLAGS=+FH +LN -T -A -M -Z +DF +Y=9 +STDOUT
+CFLAGS=+FM +LN -T -A -M -Z +DF +Y=9 +STDOUT
 
 all: Timer
 
